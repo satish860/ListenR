@@ -5,4 +5,6 @@ export default interface VideoData {
   video_length: string
   thumbnail_url: string
   ratings: number
+  transcription_status: string
+  id: string
 }
