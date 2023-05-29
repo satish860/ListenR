@@ -15,7 +15,7 @@ import { buttonVariants } from "@/components/ui/button"
 async function fetcher(url: string) {
   var response = await axios.get(url)
   console.log(response.data)
-  return response.data
+  return response.data.data
 }
 
 export default function IndexPage() {
@@ -34,12 +34,12 @@ export default function IndexPage() {
   else if (error) return <h1>Error</h1>
   return (
     <div>
-      {data?.data.length === 0 ? (
+      {data?.length === 0 ? (
         <EmptyDashboard newlyAdded={newlyAdded} />
       ) : (
         <div className="container mx-auto px-4 md:px-12">
           <div className="grid grid-cols-1 gap-4 space-y-2 md:grid-cols-2 lg:grid-cols-3">
-            {data?.data.map((item: video, index: number) => (
+            {data?.map((item: video, index: number) => (
               <div className="card">
               <Image
                 src={item.thumbnail_url}
