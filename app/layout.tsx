@@ -1,5 +1,12 @@
 import "@/styles/globals.css"
 import { Metadata } from "next"
+import { useRouter } from "next/navigation"
+import {
+  ClerkProvider,
+  RedirectToSignIn,
+  SignedIn,
+  SignedOut,
+} from "@clerk/nextjs"
 
 import { siteConfig } from "@/config/site"
 import { fontSans } from "@/lib/fonts"
@@ -7,6 +14,8 @@ import { cn } from "@/lib/utils"
 import { SiteHeader } from "@/components/site-header"
 import { TailwindIndicator } from "@/components/tailwind-indicator"
 import { ThemeProvider } from "@/components/theme-provider"
+
+const publicPages = ["/"]
 
 export const metadata: Metadata = {
   title: {
@@ -27,27 +36,66 @@ export const metadata: Metadata = {
 
 interface RootLayoutProps {
   children: React.ReactNode
+  pathname: string
 }
 
-export default function RootLayout({ children }: RootLayoutProps) {
+export default function RootLayout({ children, pathname }: RootLayoutProps) {
+  
+  const isPublicPage = publicPages.includes(pathname)
+
   return (
     <>
       <html lang="en" suppressHydrationWarning>
         <head />
-        <body
-          className={cn(
-            "min-h-screen bg-background font-sans antialiased",
-            fontSans.variable
+
+        <ClerkProvider>
+          {isPublicPage ? (
+            <body
+              className={cn(
+                "min-h-screen bg-background font-sans antialiased",
+                fontSans.variable
+              )}
+            >
+              <ThemeProvider
+                attribute="class"
+                defaultTheme="system"
+                enableSystem
+              >
+                <div className="relative flex min-h-screen flex-col">
+                  <SiteHeader />
+                  <div className="flex-1">{children}</div>
+                </div>
+                <TailwindIndicator />
+              </ThemeProvider>
+            </body>
+          ) : (
+            <>
+              <SignedIn>
+                <body
+                  className={cn(
+                    "min-h-screen bg-background font-sans antialiased",
+                    fontSans.variable
+                  )}
+                >
+                  <ThemeProvider
+                    attribute="class"
+                    defaultTheme="system"
+                    enableSystem
+                  >
+                    <div className="relative flex min-h-screen flex-col">
+                      <SiteHeader />
+                      <div className="flex-1">{children}</div>
+                    </div>
+                    <TailwindIndicator />
+                  </ThemeProvider>
+                </body>
+              </SignedIn>
+              <SignedOut>
+                <RedirectToSignIn afterSignInUrl="/dashboard" redirectUrl="/" />
+              </SignedOut>
+            </>
           )}
-        >
-          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            <div className="relative flex min-h-screen flex-col">
-              <SiteHeader />
-              <div className="flex-1">{children}</div>
-            </div>
-            <TailwindIndicator />
-          </ThemeProvider>
-        </body>
+        </ClerkProvider>
       </html>
     </>
   )

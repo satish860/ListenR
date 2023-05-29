@@ -1,4 +1,5 @@
 import Link from "next/link"
+import { SignedIn, SignedOut } from "@clerk/nextjs"
 
 import { siteConfig } from "@/config/site"
 import { buttonVariants } from "@/components/ui/button"
@@ -11,23 +12,35 @@ export default function IndexPage() {
           ListenR: Accurate Audio-to-Text Conversion Made Simple
         </h1>
         <p className="max-w-[700px] text-lg text-muted-foreground sm:text-xl">
-          Harness the Power of Advanced AI Models to Convert Audio into Text with ListenR
+          Harness the Power of Advanced AI Models to Convert Audio into Text
+          with ListenR
         </p>
       </div>
       <div className="flex gap-4">
-        <Link
-          href={siteConfig.links.start}
-          className={buttonVariants({ size: "lg" })}
-        >
-          Start For Free
-        </Link>
+        <SignedIn>
+          <Link
+            href={siteConfig.links.start}
+            className={buttonVariants({ size: "lg" })}
+          >
+            Start For Free 
+          </Link>
+        </SignedIn>
+        <SignedOut>
+          <Link
+            href={siteConfig.links.signup}
+            className={buttonVariants({ size: "lg" })}
+          >
+            Start For Free
+          </Link>
+        </SignedOut>
+
         <Link
           target="_blank"
           rel="noreferrer"
           href={siteConfig.links.github}
           className={buttonVariants({ variant: "outline", size: "lg" })}
         >
-          Star on Github
+          Start on Github
         </Link>
       </div>
     </section>

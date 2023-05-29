@@ -1,5 +1,5 @@
-import {  NextResponse } from "next/server"
-import { getXataClient } from "@/src/xata"
+import { NextResponse } from "next/server";
+import {getXataClient} from "@/src/xata";
 
 interface VideoData {
   title: string

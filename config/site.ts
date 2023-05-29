@@ -14,5 +14,7 @@ export const siteConfig = {
     twitter: "https://twitter.com/satish1v",
     github: "https://github.com/satish860",
     start: "/dashboard",
+    signin: "/sign-in",
+    signup: "/sign-up",
   },
 }

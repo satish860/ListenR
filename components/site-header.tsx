@@ -1,10 +1,12 @@
 import Link from "next/link"
+import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs"
 
 import { siteConfig } from "@/config/site"
 import { buttonVariants } from "@/components/ui/button"
 import { Icons } from "@/components/icons"
 import { MainNav } from "@/components/main-nav"
 import { ThemeToggle } from "@/components/theme-toggle"
+
 import { Button } from "./ui/button"
 
 export function SiteHeader() {
@@ -45,7 +47,16 @@ export function SiteHeader() {
               </div>
             </Link>
             <ThemeToggle />
-            <Button variant="default" className="flex items-center ">Sign In</Button>
+            <SignedIn>
+              <UserButton/>
+            </SignedIn>
+            <SignedOut>
+              <Link href={siteConfig.links.signin}>
+                <Button variant="default" className="flex items-center ">
+                  Sign In
+                </Button>
+              </Link>
+            </SignedOut>
           </nav>
         </div>
       </div>
