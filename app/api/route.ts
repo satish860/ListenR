@@ -72,6 +72,5 @@ export async function GET(request: Request) {
       size: 15,
     },
   })
-  // console.log(page)
   return NextResponse.json({ data: page.records })
 }
