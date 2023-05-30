@@ -40,7 +40,7 @@ export default function IndexPage() {
           href={siteConfig.links.github}
           className={buttonVariants({ variant: "outline", size: "lg" })}
         >
-          Start on Github
+          Star on Github
         </Link>
       </div>
     </section>

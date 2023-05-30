@@ -1,6 +1,5 @@
 import "@/styles/globals.css"
 import { Metadata } from "next"
-import { useRouter } from "next/navigation"
 import {
   ClerkProvider,
   RedirectToSignIn,
@@ -41,7 +40,7 @@ interface RootLayoutProps {
 
 export default function RootLayout({ children, pathname }: RootLayoutProps) {
   
-  const isPublicPage = publicPages.includes(pathname)
+  const isPublicPage = true;
 
   return (
     <>
