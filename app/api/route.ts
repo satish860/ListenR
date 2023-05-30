@@ -36,7 +36,7 @@ const fetchData = async (youtubeUrl: string): Promise<VideoData> => {
     }
 
     const yt = await response.json()
-    console.log(yt)
+    // console.log(yt)
     const videoData: VideoData = {
       title: yt.response.title,
       number_of_views: yt.response.views,
