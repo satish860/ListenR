@@ -6,6 +6,7 @@ import axios from "axios"
 import video from "@/types/video"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { v4 as uuidv4  } from "uuid"
 
 interface EmptyDashboardProps {
   newlyAdded?: (video: video) => void
@@ -23,7 +24,7 @@ export function EmptyDashboard({ newlyAdded }: EmptyDashboardProps) {
     event.preventDefault()
     setLoading(true)
     try {
-      const response = await axios.post("/api", { url: inputValue })
+      const response = await axios.post("/api", { url: inputValue,id:uuidv4() })
       if (newlyAdded) {
         console.log("I am here");
         newlyAdded(response.data)

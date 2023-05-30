@@ -13,7 +13,7 @@ const xata = getXataClient()
 
 const fetchData = async (youtubeUrl: string): Promise<VideoData> => {
   const url = "https://apps.beam.cloud/iw84c"
-  const token = "YjgyODRhZDQzNjJkYTc5ODA4MmMzMDM3NzhkNWI2MGE6ZWUwOWVlZjljOTEzMjNjMWYzMzY3MGMwMzFkNjRjMDA="
+  const token = process.env.INFO_API_KEY
   const requestBody = {
     url: youtubeUrl,
   }
