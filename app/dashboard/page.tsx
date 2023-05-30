@@ -24,7 +24,6 @@ export default function IndexPage() {
     "/api",
     fetcher
   )
-  console.log(data)
 
   const newlyAdded = (video: any) => {
     setItems((prev) => [...prev, video.record])
