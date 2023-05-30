@@ -16,6 +16,16 @@ const tables = [
       { name: "thumbnail_url", type: "string" },
       { name: "ratings", type: "string" },
       { name: "transcription_status", type: "string" },
+      { name: "corelation_id", type: "string" },
+      { name: "transcript_url", type: "string" },
+    ],
+  },
+  {
+    name: "Transcription",
+    columns: [
+      { name: "video_url", type: "string" },
+      { name: "Transcription_url", type: "string" },
+      { name: "info_id", type: "string" },
     ],
   },
 ] as const;
@@ -26,8 +36,12 @@ export type InferredTypes = SchemaInference<SchemaTables>;
 export type Info = InferredTypes["info"];
 export type InfoRecord = Info & XataRecord;
 
+export type Transcription = InferredTypes["Transcription"];
+export type TranscriptionRecord = Transcription & XataRecord;
+
 export type DatabaseSchema = {
   info: InfoRecord;
+  Transcription: TranscriptionRecord;
 };
 
 const DatabaseClient = buildClient();

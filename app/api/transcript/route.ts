@@ -4,7 +4,7 @@ export async function GET(request: Request) {
   return NextResponse.json({ message: "Hello, world!" })
 }
 
-export async function Post(request: Request) {
+export async function POST(request: Request) {
   const res = await request.json()
   const youtubeUrl = res.url
   const corelation_id = res.id

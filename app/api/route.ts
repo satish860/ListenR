@@ -12,8 +12,8 @@ interface VideoData {
 const xata = getXataClient()
 
 const fetchData = async (youtubeUrl: string): Promise<VideoData> => {
-  const url = "https://apps.beam.cloud/d33pb"
-  const token = process.env.INFO_API_KEY
+  const url = "https://apps.beam.cloud/iw84c"
+  const token = "YjgyODRhZDQzNjJkYTc5ODA4MmMzMDM3NzhkNWI2MGE6ZWUwOWVlZjljOTEzMjNjMWYzMzY3MGMwMzFkNjRjMDA="
   const requestBody = {
     url: youtubeUrl,
   }
@@ -36,11 +36,11 @@ const fetchData = async (youtubeUrl: string): Promise<VideoData> => {
     }
 
     const yt = await response.json()
-    // console.log(yt)
+    console.log(yt)
     const videoData: VideoData = {
       title: yt.response.title,
-      number_of_views: yt.response.views,
-      video_length: yt.response.length,
+      number_of_views: yt.response.number_of_views.toString(),
+      video_length: yt.response.video_length,
       thumbnail_url: yt.response.thumbnail_url,
       ratings: yt.response.rating,
     }
@@ -54,13 +54,15 @@ const fetchData = async (youtubeUrl: string): Promise<VideoData> => {
 export async function POST(request: Request) {
   const res = await request.json()
   const youtubeUrl = res.url
+  const corelation_id = res.id
   const data = await fetchData(youtubeUrl)
   const record = await xata.db.info.create({
     title: data.title,
-    number_of_views: data.number_of_views,
-    video_length: data.video_length,
+    number_of_views: data.number_of_views.toString(),
+    video_length: data.video_length.toString(),
     thumbnail_url: data.thumbnail_url,
     ratings: String(data.ratings),
+    corelation_id: corelation_id,
     transcription_status: "pending",
   })
   return NextResponse.json({ record })
