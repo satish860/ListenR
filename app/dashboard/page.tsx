@@ -10,7 +10,13 @@ import useSWR from "swr"
 
 import video from "@/types/video"
 import { cn } from "@/lib/utils"
-import { buttonVariants } from "@/components/ui/button"
+import { Button, buttonVariants } from "@/components/ui/button"
+import {
+  Dialog,
+  DialogContent,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+import { Input } from "@/components/ui/input"
 import { EmptyDashboard } from "@/components/emptydashboard"
 
 async function fetcher(url: string) {
@@ -38,15 +44,35 @@ export default function IndexPage() {
         <EmptyDashboard newlyAdded={newlyAdded} />
       ) : (
         <>
-          <div>
-            <button className="font-semibold py-2 px-4 mt-2 rounded-md float-right mr-40 bg-primary text-primary-foreground hover:bg-primary/90">
-              <FontAwesomeIcon
-                icon={faPlusCircle}
-                className="mr-2 bg-primary"
-              />{" "}
-              Add New
-            </button>
-          </div>
+          <Dialog>
+            <DialogTrigger asChild>
+              <div>
+                <Button className="font-semibold py-2 px-4 mt-2 rounded-md float-right mr-40 bg-primary text-primary-foreground hover:bg-primary/90">
+                  <FontAwesomeIcon
+                    icon={faPlusCircle}
+                    className="mr-2 bg-primary"
+                  />
+                  Add New
+                </Button>
+              </div>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[600px] sm:max-h-[400px]">
+              <form>
+                <div className="container flex flex-col items-center space-y-4">
+                  <h1 className="text-3xl font-extrabold leading-tight tracking-tighter sm:text-2xl md:text-4xl lg:text-5xl">
+                    Its Empty Here !! Add a URL to get started.
+                  </h1>
+                  <Input
+                    type="url"
+                    className="w-96"
+                    placeholder="Enter your URL here"
+                  />
+                  <Button type="submit">Transcribe</Button>
+                </div>
+              </form>
+            </DialogContent>
+          </Dialog>
+          
           <div className="container mx-auto p-4 md:px-20 flex justify-center">
             <div className="grid grid-cols-1 gap-4 space-y-2 md:grid-cols-2 lg:grid-cols-3">
               {data?.map((item: video, index: number) => (
