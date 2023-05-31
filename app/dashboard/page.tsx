@@ -1,24 +1,20 @@
 "use client"
 
-import React, { useState,ChangeEvent } from "react"
+import React, { ChangeEvent, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { faPlusCircle } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import axios from "axios"
 import useSWR from "swr"
+import { v4 as uuidv4 } from "uuid"
 
 import video from "@/types/video"
 import { cn } from "@/lib/utils"
 import { Button, buttonVariants } from "@/components/ui/button"
-import {
-  Dialog,
-  DialogContent,
-  DialogTrigger,
-} from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { EmptyDashboard } from "@/components/emptydashboard"
-import { v4 as uuidv4  } from "uuid"
 
 async function fetcher(url: string) {
   var response = await axios.get(url)
@@ -27,21 +23,21 @@ async function fetcher(url: string) {
 }
 
 export default function IndexPage() {
-  const [items, setItems] = useState<video[]>([]);
+  const [items, setItems] = useState<video[]>([])
   const [inputValue, setInputValue] = useState<string>("")
   const { data, error, isLoading, mutate } = useSWR<video[], string>(
     "/api",
     fetcher
   )
-  
+
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value)
   }
 
   const handleSubmit = async (event: ChangeEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const response = await axios.post("/api", { url: inputValue,id:uuidv4() });
-    mutate(response.data);
+    event.preventDefault()
+    const response = await axios.post("/api", { url: inputValue, id: uuidv4() })
+    mutate(response.data)
   }
 
   const newlyAdded = (video: any) => {
@@ -52,7 +48,7 @@ export default function IndexPage() {
   else if (error) return <h1>Error</h1>
   return (
     <div>
-      {data?.length ===0 ? (
+      {data?.length === 0 ? (
         <EmptyDashboard newlyAdded={newlyAdded} />
       ) : (
         <>
@@ -72,7 +68,7 @@ export default function IndexPage() {
               <form onSubmit={handleSubmit}>
                 <div className="container flex flex-col items-center space-y-4">
                   <h1 className="text-3xl font-extrabold leading-tight tracking-tighter sm:text-2xl md:text-4xl lg:text-5xl">
-                    Its Empty Here !! Add a URL to get started.
+                    Transcribe from URL
                   </h1>
                   <Input
                     type="url"
@@ -86,7 +82,7 @@ export default function IndexPage() {
               </form>
             </DialogContent>
           </Dialog>
-          
+
           <div className="container mx-auto flex justify-center p-4 md:px-20">
             <div className="grid grid-cols-1 gap-4 space-y-2 md:grid-cols-2 lg:grid-cols-3">
               {data?.map((item: video, index: number) => (
