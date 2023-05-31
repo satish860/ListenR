@@ -1,6 +1,6 @@
 "use client"
 
-import React, { ChangeEvent, useState } from "react"
+import React, { ChangeEvent, useState,MouseEvent } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { faPlusCircle } from "@fortawesome/free-solid-svg-icons"
@@ -35,20 +35,19 @@ export default function IndexPage() {
   const [loader, setloader] = useState(false)
   const [open, setOpen] = useState(false)
 
-  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement>)  => {
     setInputValue(event.target.value)
   }
 
-  const handleSubmit = async (event: ChangeEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: MouseEvent<HTMLButtonElement>): Promise<void> => {
     setloader(true)
-    console.log("I am here")
     event.preventDefault()
+    console.log("I am here")
     const response = await axios.post("/api", { url: inputValue, id: uuidv4() })
     console.log(response.data)
     setloader(false)
     setOpen(false)
     setInputValue("")
-    return true
   }
 
   const newlyAdded = (video: any) => {
@@ -88,14 +87,14 @@ export default function IndexPage() {
                     className="w-96"
                     placeholder="Enter your URL here"
                   />
-                  <DialogFooter onClick={handleSubmit}>
+                  <DialogFooter>
                     {loader ? (
                       <Button>
                         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                         <span>Please wait</span>
                       </Button>
                     ) : (
-                      <Button> Transcribe </Button>
+                      <Button onClick={handleSubmit}> Transcribe </Button>
                     )}
                   </DialogFooter>
                 </div>
