@@ -9,8 +9,8 @@ import { DialogClose } from "@radix-ui/react-dialog"
 import axios from "axios"
 import { Loader2 } from "lucide-react"
 import useSWR from "swr"
+import { useSWRConfig } from "swr"
 import { v4 as uuidv4 } from "uuid"
-
 import video from "@/types/video"
 import { cn } from "@/lib/utils"
 import { Button, buttonVariants } from "@/components/ui/button"
@@ -27,10 +27,11 @@ async function fetcher(url: string) {
 export default function IndexPage() {
   const [items, setItems] = useState<video[]>([])
   const [inputValue, setInputValue] = useState<string>("")
-  const { data, error, isLoading, mutate } = useSWR<video[], string>(
+  const { data, error, isLoading } = useSWR<video[], string>(
     "/api",
     fetcher
   )
+  const { mutate } = useSWRConfig()
 
   const [loader, setloader] = useState(false)
   const [open, setOpen] = useState(false)
@@ -48,6 +49,7 @@ export default function IndexPage() {
     setloader(false)
     setOpen(false)
     setInputValue("")
+    mutate("/api")
   }
 
   const newlyAdded = (video: any) => {
