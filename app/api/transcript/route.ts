@@ -12,7 +12,7 @@ export async function POST(request: Request) {
     url: youtubeUrl,
     record_id: corelation_id,
   }
-  const url = "https://apps.beam.cloud/d33pb"
+  const url = "https://apps.beam.cloud/oyjvn"
   const token = process.env.INFO_API_KEY
   const response = await fetch(url, {
     method: "POST",

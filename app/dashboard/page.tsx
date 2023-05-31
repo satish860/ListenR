@@ -43,9 +43,11 @@ export default function IndexPage() {
   const handleSubmit = async (event: MouseEvent<HTMLButtonElement>): Promise<void> => {
     setloader(true)
     event.preventDefault()
-    console.log("I am here")
-    const response = await axios.post("/api", { url: inputValue, id: uuidv4() })
-    console.log(response.data)
+    const uuid = uuidv4()
+    const request1 = await axios.post("/api", { url: inputValue, id: uuid })
+    const request2 = await axios.post("/api/transcript", { url: inputValue, id: uuid })
+    await Promise.all([request1, request2]);
+    console.log("Both requests fired in parallel.");
     setloader(false)
     setOpen(false)
     setInputValue("")
