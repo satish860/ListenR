@@ -7,13 +7,14 @@ import { faPlusCircle } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { DialogClose } from "@radix-ui/react-dialog"
 import axios from "axios"
+import { Loader2 } from "lucide-react"
 import useSWR from "swr"
 import { v4 as uuidv4 } from "uuid"
 
 import video from "@/types/video"
 import { cn } from "@/lib/utils"
 import { Button, buttonVariants } from "@/components/ui/button"
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogTrigger,DialogFooter } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { EmptyDashboard } from "@/components/emptydashboard"
 
@@ -31,14 +32,23 @@ export default function IndexPage() {
     fetcher
   )
 
+  const [loader, setloader] = useState(false)
+  const [open, setOpen] = useState(false)
+
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value)
   }
 
   const handleSubmit = async (event: ChangeEvent<HTMLFormElement>) => {
+    setloader(true)
+    console.log("I am here")
     event.preventDefault()
     const response = await axios.post("/api", { url: inputValue, id: uuidv4() })
-    mutate(response.data)
+    console.log(response.data)
+    setloader(false)
+    setOpen(false)
+    setInputValue("")
+    return true
   }
 
   const newlyAdded = (video: any) => {
@@ -53,7 +63,7 @@ export default function IndexPage() {
         <EmptyDashboard newlyAdded={newlyAdded} />
       ) : (
         <>
-          <Dialog>
+          <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
               <div>
                 <Button className="float-right mr-40 mt-2 rounded-md bg-primary px-4 py-2 font-semibold text-primary-foreground hover:bg-primary/90">
@@ -66,7 +76,7 @@ export default function IndexPage() {
               </div>
             </DialogTrigger>
             <DialogContent className="sm:max-h-[400px] sm:max-w-[600px]">
-              <form onSubmit={handleSubmit}>
+              <form>
                 <div className="container flex flex-col items-center space-y-4">
                   <h1 className="text-3xl font-extrabold leading-tight tracking-tighter sm:text-2xl md:text-4xl lg:text-5xl">
                     Transcribe from URL
@@ -78,9 +88,16 @@ export default function IndexPage() {
                     className="w-96"
                     placeholder="Enter your URL here"
                   />
-                  <DialogClose>
-                    <Button type="submit">Transcribe</Button>
-                  </DialogClose>
+                  <DialogFooter onClick={handleSubmit}>
+                    {loader ? (
+                      <Button>
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        <span>Please wait</span>
+                      </Button>
+                    ) : (
+                      <Button> Transcribe </Button>
+                    )}
+                  </DialogFooter>
                 </div>
               </form>
             </DialogContent>
