@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server"
 import { getXataClient } from "@/src/xata"
 
+export const runtime = 'edge';
+
 interface VideoData {
   title: string
   number_of_views: string

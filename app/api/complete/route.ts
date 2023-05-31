@@ -1,7 +1,9 @@
 import { NextResponse } from "next/server"
 import {getXataClient} from "@/src/xata";
+export const runtime = 'edge';
 
 const xata = getXataClient()
+
 
 export async function GET(request: Request) {
   return NextResponse.json({ message: "Hello, world!" })
