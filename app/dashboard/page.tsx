@@ -5,6 +5,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { faPlusCircle } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { DialogClose } from "@radix-ui/react-dialog"
 import axios from "axios"
 import useSWR from "swr"
 import { v4 as uuidv4 } from "uuid"
@@ -77,7 +78,9 @@ export default function IndexPage() {
                     className="w-96"
                     placeholder="Enter your URL here"
                   />
-                  <Button type="submit">Transcribe</Button>
+                  <DialogClose>
+                    <Button type="submit">Transcribe</Button>
+                  </DialogClose>
                 </div>
               </form>
             </DialogContent>
