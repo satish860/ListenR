@@ -1,5 +1,5 @@
-import { NextResponse } from "next/server";
-import {getXataClient} from "@/src/xata";
+import { NextResponse } from "next/server"
+import { getXataClient } from "@/src/xata"
 
 interface VideoData {
   title: string
@@ -12,13 +12,17 @@ interface VideoData {
 const xata = getXataClient()
 
 const fetchData = async (youtubeUrl: string): Promise<VideoData> => {
-  const url = "https://apps.beam.cloud/iw84c"
+  const url = process.env.INFO_API_URL
   const token = process.env.INFO_API_KEY
   const requestBody = {
     url: youtubeUrl,
   }
 
   try {
+    if (!url) {
+      throw new Error("INFO_API_URL is not defined")
+    }
+
     const response = await fetch(url, {
       method: "POST",
       headers: {
