@@ -1,20 +1,24 @@
 "use client"
 
-import React, { ChangeEvent, useState,MouseEvent } from "react"
+import React, { ChangeEvent, MouseEvent, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { faPlusCircle } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { DialogClose } from "@radix-ui/react-dialog"
 import axios from "axios"
 import { Loader2 } from "lucide-react"
-import useSWR from "swr"
-import { useSWRConfig } from "swr"
+import useSWR, { useSWRConfig } from "swr"
 import { v4 as uuidv4 } from "uuid"
+
 import video from "@/types/video"
 import { cn } from "@/lib/utils"
 import { Button, buttonVariants } from "@/components/ui/button"
-import { Dialog, DialogContent, DialogTrigger,DialogFooter } from "@/components/ui/dialog"
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogTrigger,
+} from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { EmptyDashboard } from "@/components/emptydashboard"
 
@@ -27,26 +31,28 @@ async function fetcher(url: string) {
 export default function IndexPage() {
   const [items, setItems] = useState<video[]>([])
   const [inputValue, setInputValue] = useState<string>("")
-  const { data, error, isLoading } = useSWR<video[], string>(
-    "/api",
-    fetcher
-  )
+  const { data, error, isLoading } = useSWR<video[], string>("/api", fetcher)
   const { mutate } = useSWRConfig()
 
   const [loader, setloader] = useState(false)
   const [open, setOpen] = useState(false)
 
-  const handleInputChange = (event: ChangeEvent<HTMLInputElement>)  => {
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value)
   }
 
-  const handleSubmit = async (event: MouseEvent<HTMLButtonElement>): Promise<void> => {
+  const handleSubmit = async (
+    event: MouseEvent<HTMLButtonElement>
+  ): Promise<void> => {
     setloader(true)
     event.preventDefault()
     const uuid = uuidv4()
     const request1 = await axios.post("/api", { url: inputValue, id: uuid })
-    const request2 = await axios.post("/api/transcript", { url: inputValue, id: uuid })
-    await Promise.all([request1, request2]);
+    const request2 = await axios.post("/api/transcript", {
+      url: inputValue,
+      id: uuid,
+    })
+    await Promise.all([request1, request2])
     setloader(false)
     setOpen(false)
     setInputValue("")

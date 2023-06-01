@@ -18,6 +18,7 @@ const tables = [
       { name: "transcription_status", type: "string" },
       { name: "corelation_id", type: "string" },
       { name: "transcript_url", type: "string" },
+      { name: "youtube_url", type: "string" },
     ],
   },
   {

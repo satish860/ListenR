@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server"
 import { getXataClient } from "@/src/xata"
 
-export const runtime = 'edge';
+export const runtime = "edge"
 
 interface VideoData {
   title: string
@@ -9,6 +9,7 @@ interface VideoData {
   video_length: string
   thumbnail_url: string
   ratings: number
+  youtube_url: string
 }
 
 const xata = getXataClient()
@@ -36,7 +37,7 @@ const fetchData = async (youtubeUrl: string): Promise<VideoData> => {
       },
       body: JSON.stringify(requestBody),
     })
-    console.log(response);
+    console.log(response)
     if (!response.ok) {
       throw new Error("Request failed")
     }
@@ -49,6 +50,7 @@ const fetchData = async (youtubeUrl: string): Promise<VideoData> => {
       video_length: yt.response.video_length,
       thumbnail_url: yt.response.thumbnail_url,
       ratings: yt.response.rating,
+      youtube_url: youtubeUrl,
     }
     return videoData
   } catch (error) {
@@ -70,6 +72,7 @@ export async function POST(request: Request) {
     ratings: String(data.ratings),
     corelation_id: corelation_id,
     transcription_status: "pending",
+    youtube_url: data.youtube_url,
   })
   return NextResponse.json({ record })
 }
