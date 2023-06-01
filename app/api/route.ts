@@ -10,6 +10,7 @@ interface VideoData {
   thumbnail_url: string
   ratings: number
   youtube_url: string
+  video_id: string
 }
 
 const xata = getXataClient()
@@ -51,6 +52,7 @@ const fetchData = async (youtubeUrl: string): Promise<VideoData> => {
       thumbnail_url: yt.response.thumbnail_url,
       ratings: yt.response.rating,
       youtube_url: youtubeUrl,
+      video_id: yt.response.id,
     }
     return videoData
   } catch (error) {
@@ -73,6 +75,7 @@ export async function POST(request: Request) {
     corelation_id: corelation_id,
     transcription_status: "pending",
     youtube_url: data.youtube_url,
+    video_id: data.video_id,
   })
   return NextResponse.json({ record })
 }

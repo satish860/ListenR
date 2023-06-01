@@ -19,6 +19,7 @@ const tables = [
       { name: "corelation_id", type: "string" },
       { name: "transcript_url", type: "string" },
       { name: "youtube_url", type: "string" },
+      { name: "video_id", type: "string" },
     ],
   },
   {
