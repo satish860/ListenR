@@ -1,5 +1,6 @@
-import { NextResponse } from "next/server"
+import { NextRequest, NextResponse } from "next/server"
 import { getXataClient } from "@/src/xata"
+import { getAuth } from "@clerk/nextjs/server";
 
 export const runtime = "edge"
 
@@ -61,12 +62,15 @@ const fetchData = async (youtubeUrl: string): Promise<VideoData> => {
   }
 }
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
+  const { userId } = getAuth(request)
   const res = await request.json()
   const youtubeUrl = res.url
   const corelation_id = res.id
+  console.log(corelation_id)
   const data = await fetchData(youtubeUrl)
   const record = await xata.db.info.create({
+    user_id: userId,
     title: data.title,
     number_of_views: data.number_of_views.toString(),
     video_length: data.video_length.toString(),

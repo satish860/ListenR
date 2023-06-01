@@ -2,11 +2,11 @@
 
 import React, { ChangeEvent, useState } from "react"
 import axios from "axios"
+import { v4 as uuidv4 } from "uuid"
 
 import video from "@/types/video"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { v4 as uuidv4  } from "uuid"
 
 interface EmptyDashboardProps {
   newlyAdded?: (video: video) => void
@@ -23,19 +23,18 @@ export function EmptyDashboard({ newlyAdded }: EmptyDashboardProps) {
   const handleSubmit = async (event: ChangeEvent<HTMLFormElement>) => {
     event.preventDefault()
     setLoading(true)
-    try {
-      const response = await axios.post("/api", { url: inputValue,id:uuidv4() })
-      if (newlyAdded) {
-        console.log("I am here");
-        newlyAdded(response.data)
-      }
-    } catch (error) {
-      // Handle the error
-      console.error(error)
+
+    const uuid = uuidv4()
+    const request1 = await axios.post("/api", { url: inputValue, id: uuid })
+    const request2 = await axios.post("/api/transcript", {
+      url: inputValue,
+      id: uuid,
+    })
+   const response = await Promise.all([request1, request2])
+    if (newlyAdded) {
+      newlyAdded(response[0].data)
     }
     setLoading(false)
-
-    console.log(inputValue)
   }
 
   return (

@@ -21,6 +21,7 @@ const tables = [
       { name: "youtube_url", type: "string" },
       { name: "video_id", type: "string" },
       { name: "sentence_url", type: "string" },
+      { name: "user_id", type: "string" },
     ],
   },
   {

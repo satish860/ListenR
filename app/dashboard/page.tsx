@@ -133,12 +133,22 @@ export default function IndexPage() {
                         {item.title}
                       </h5>
                     </Link>
-                    <Link
-                      href={`/transcript/${item.id}`}
-                      className={buttonVariants({ variant: "default" })}
-                    >
-                      {item.transcription_status}
-                    </Link>
+                    {item.transcription_status === "completed" ? (
+                      <Link
+                        href={`/transcript/${item.id}`}
+                        className={buttonVariants({ variant: "default" })}
+                      >
+                        View Transcription
+                      </Link>
+                    ) : (
+                      item.transcription_status === "pending" && (
+                        <Button
+                          className={buttonVariants({ variant: "default" })}
+                        >
+                          In Progress...
+                        </Button>
+                      )
+                    )}
                   </div>
                 </div>
               ))}
