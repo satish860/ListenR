@@ -7,4 +7,5 @@ export default interface VideoData {
   ratings: number
   transcription_status: string
   id: string
+  youtube_url: string
 }

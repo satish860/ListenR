@@ -1,5 +1,12 @@
+import {getXataClient} from "@/src/xata";
+import { VideoData } from "@/src/types/video";
 
-export default function IndexPage({ params }: { params: { id: string } }) {
+
+const xata = getXataClient()
+
+export default async function IndexPage({ params }: { params: { id: string } }) {
+  const record = await xata.db.info.read(params.id);
+  console.log(record);
   return (
     <>
       <div className="container relative hidden h-[650px] flex-col items-center justify-center pt-2 md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
@@ -8,7 +15,7 @@ export default function IndexPage({ params }: { params: { id: string } }) {
             title="YouTube Video"
             width="700px"
             height="600px"
-            src={"https://youtu.be/XBu54nfzxAQ"}
+            src={`https://www.youtube.com/embed/${record.video_id}`}
             style={{ position: "absolute" }}
           ></iframe>
         </div>
