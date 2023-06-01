@@ -1,5 +1,4 @@
 import {getXataClient} from "@/src/xata";
-import { VideoData } from "@/src/types/video";
 
 
 const xata = getXataClient()
@@ -15,7 +14,7 @@ export default async function IndexPage({ params }: { params: { id: string } }) 
             title="YouTube Video"
             width="700px"
             height="600px"
-            src={`https://www.youtube.com/embed/${record.video_id}`}
+            src={`https://www.youtube.com/embed/${record?.video_id}`}
             style={{ position: "absolute" }}
           ></iframe>
         </div>
