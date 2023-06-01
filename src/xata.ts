@@ -20,6 +20,7 @@ const tables = [
       { name: "transcript_url", type: "string" },
       { name: "youtube_url", type: "string" },
       { name: "video_id", type: "string" },
+      { name: "sentence_url", type: "string" },
     ],
   },
   {
