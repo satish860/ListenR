@@ -47,7 +47,7 @@ export default async function IndexPage({
           {data.map((item: Item, index: number) => (
             <div key={index}>
               <p>
-                ({item.start}-{item.end}) Speaker:{item.speaker}:{item.text}
+                ({item.start}-{item.end}) Speaker-{item.speaker}:{item.text}
               </p>
             </div>
           ))}
