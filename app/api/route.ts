@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server"
 import { getXataClient } from "@/src/xata"
-import { getAuth } from "@clerk/nextjs/server";
+import { getAuth } from "@clerk/nextjs/server"
 
 export const runtime = "edge"
 
@@ -18,7 +18,7 @@ const xata = getXataClient()
 
 const fetchData = async (youtubeUrl: string): Promise<VideoData> => {
   const url = process.env.INFO_API_URL
-  const token = process.env.INFO_API_KEY
+  const token = process.env.BEAM_API_KEY
   const requestBody = {
     url: youtubeUrl,
   }
@@ -88,8 +88,8 @@ export async function GET(request: NextRequest) {
   const { userId } = getAuth(request)
   const records = await xata.db.info.filter({ user_id: userId }).getPaginated({
     pagination: {
-        size: 30,
+      size: 30,
     },
-})
+  })
   return NextResponse.json({ data: records.records })
 }
