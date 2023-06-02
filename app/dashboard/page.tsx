@@ -63,6 +63,7 @@ export default function IndexPage() {
     setItems((prev) => [...prev, video.record])
     mutate(video)
   }
+
   if (isLoading) return <h1>Loading...</h1>
   else if (error) return <h1>Error</h1>
   return (

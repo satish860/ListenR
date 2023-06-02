@@ -3,7 +3,6 @@ import { getXataClient } from "@/src/xata"
 const xata = getXataClient()
 
 async function getData(url: string) {
-  console.log(url)
   const res = await fetch(url)
   if (!res.ok) {
     throw new Error("Failed to fetch data")
@@ -25,6 +24,7 @@ export default async function IndexPage({
 }) {
   const record = await xata.db.info.read(params.id)
   const sen_url = record?.sentence_url
+
   let data = []
 
   if (sen_url) {
@@ -42,7 +42,6 @@ export default async function IndexPage({
             src={`https://www.youtube.com/embed/${record?.video_id}`}
           ></iframe>
         </div>
-
         <div className="h-[650px] flex-col p-10 dark:border-r overflow-hidden overflow-y-auto lg:flex">
           {data.map((item: Item, index: number) => (
             <div key={index}>

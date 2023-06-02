@@ -84,11 +84,12 @@ export async function POST(request: NextRequest) {
   return NextResponse.json({ record })
 }
 
-export async function GET(request: Request) {
-  const page = await xata.db.info.getPaginated({
+export async function GET(request: NextRequest) {
+  const { userId } = getAuth(request)
+  const records = await xata.db.info.filter({ user_id: userId }).getPaginated({
     pagination: {
-      size: 15,
+        size: 30,
     },
-  })
-  return NextResponse.json({ data: page.records })
+})
+  return NextResponse.json({ data: records.records })
 }
