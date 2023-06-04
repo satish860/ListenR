@@ -14,8 +14,12 @@ export async function POST(request: Request) {
     url: youtubeUrl,
     record_id: corelation_id,
   }
-  const url = "https://apps.beam.cloud/oyjvn"
-  const token = process.env.INFO_API_KEY
+  const url = process.env.TRANSCRIPT_API_URL
+  const token = process.env.BEAM_API_KEY
+  if (!url) {
+    throw new Error("TRANSCRIPT_API_URL is not defined")
+  }
+
   const response = await fetch(url, {
     method: "POST",
     headers: {

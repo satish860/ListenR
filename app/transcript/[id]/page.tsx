@@ -5,7 +5,6 @@ import { TranscriptVideo } from "@/components/videocomponent"
 const xata = getXataClient()
 
 async function getData(url: string) {
-  console.log(url)
   const res = await fetch(url)
   if (!res.ok) {
     throw new Error("Failed to fetch data")
@@ -27,6 +26,7 @@ export default async function IndexPage({
 }) {
   const record = await xata.db.info.read(params.id)
   const sen_url = record?.sentence_url
+
   let data = []
 
   if (sen_url) {
