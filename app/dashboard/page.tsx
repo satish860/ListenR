@@ -75,10 +75,10 @@ export default function IndexPage() {
           <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
               <div>
-                <Button className="float-right mr-40 mt-2 rounded-md bg-primary px-4 py-2 font-semibold text-primary-foreground hover:bg-primary/90">
+                <Button className="float-right mr-40 mt-2">
                   <FontAwesomeIcon
                     icon={faPlusCircle}
-                    className="mr-2 bg-primary"
+                    className="mr-2"
                   />
                   Add New
                 </Button>
