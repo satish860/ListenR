@@ -37,10 +37,10 @@ export default async function IndexPage({
     <>
       <div className="flex">
         <div className="w-1/2">
-          <TranscriptVideo url={record?.video_id!}></TranscriptVideo>
+          <TranscriptVideo url={record?.youtube_url!}></TranscriptVideo>
         </div>
         
-        <div className="w-1/2 h-[600px] overflow-hidden overflow-y-auto p-10 dark:border-r">
+        <div className="h-[600px] w-1/2 overflow-hidden overflow-y-auto p-10 dark:border-r">
           {data.map((item: Item, index: number) => (
             <div key={index}>
               <p>
