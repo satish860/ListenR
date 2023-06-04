@@ -10,30 +10,52 @@ interface Item {
   end: number
 }
 
-
-
-export function TranscriptVideo({ url,data }: { url: string,data: Item[] }) 
-{
+export function TranscriptVideo({ url, data }: { url: string; data: Item[] }) {
+  const [currentTime, setCurrentTime] = useState(0)
+  const [highlightedIndex, setHighlightedIndex] = useState(0)
 
   const handleProgress = (progress: any) => {
-    console.log(progress)
+    setCurrentTime(progress.playedSeconds)
+
+    const currentItemIndex = data.findIndex(
+      (item) =>
+        item.start <= progress.playedSeconds &&
+        item.end >= progress.playedSeconds
+    )
+
+    setHighlightedIndex(currentItemIndex)
   }
 
   return (
     <>
+      <style>
+        {`
+        .highlight {
+          background-color: yellow;
+          font-weight: bold;
+        }
+        `}
+      </style>
+
       <div className="flex">
         <div className="w-1/2 pt-10 pl-10">
-        <ReactPlayer
-          url={url}
-          height={550}
-          width={700}
-          onProgress={handleProgress}
-        />
+          <ReactPlayer
+            url={url}
+            height={550}
+            width={700}
+            controls={true}
+            onProgress={handleProgress}
+          />
         </div>
 
         <div className="h-[600px] w-1/2 overflow-hidden overflow-y-auto p-10 dark:border-r">
           {data.map((item: Item, index: number) => (
-            <div key={index} className="mb-4">
+            <div
+              key={index}
+              className={`mb-4 ${
+                index === highlightedIndex ? "highlight" : ""
+              }`}
+            >
               <p>
                 ({item.start}) Speaker-{item.speaker}:{item.text}
               </p>
