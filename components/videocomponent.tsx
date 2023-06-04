@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from "react"
+import React, { useRef, useState } from "react"
 import ReactPlayer from "react-player/youtube"
 
 interface Item {
@@ -13,6 +13,8 @@ interface Item {
 export function TranscriptVideo({ url, data }: { url: string; data: Item[] }) {
   const [currentTime, setCurrentTime] = useState(0)
   const [highlightedIndex, setHighlightedIndex] = useState(0)
+  const resultRef = useRef<HTMLDivElement>(null); 
+
 
   const handleProgress = (progress: any) => {
     setCurrentTime(progress.playedSeconds)
@@ -24,6 +26,12 @@ export function TranscriptVideo({ url, data }: { url: string; data: Item[] }) {
     )
 
     setHighlightedIndex(currentItemIndex)
+    if (resultRef.current && highlightedIndex >= 0) {
+      const itemRef = resultRef.current.children[highlightedIndex]
+      if (itemRef) {
+        itemRef.scrollIntoView({ behavior: "smooth", block: "center" })
+      }
+    }
   }
 
   return (
@@ -48,7 +56,7 @@ export function TranscriptVideo({ url, data }: { url: string; data: Item[] }) {
           />
         </div>
 
-        <div className="h-[600px] w-1/2 overflow-hidden overflow-y-auto p-10 dark:border-r">
+        <div className="h-[600px] w-1/2 overflow-hidden overflow-y-auto p-10 dark:border-r" ref={resultRef}>
           {data.map((item: Item, index: number) => (
             <div
               key={index}
