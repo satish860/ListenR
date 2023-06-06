@@ -14,8 +14,6 @@ import { SiteHeader } from "@/components/site-header"
 import { TailwindIndicator } from "@/components/tailwind-indicator"
 import { ThemeProvider } from "@/components/theme-provider"
 
-const publicPages = ["/"]
-
 export const metadata: Metadata = {
   title: {
     default: siteConfig.name,
@@ -38,7 +36,7 @@ interface RootLayoutProps {
   pathname: string
 }
 
-export default function RootLayout({ children, pathname }: RootLayoutProps) {
+export default function RootLayout({ children }: RootLayoutProps) {
   
   const isPublicPage = true;
 

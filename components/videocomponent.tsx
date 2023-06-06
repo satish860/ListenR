@@ -5,6 +5,8 @@ import { faPlay } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import ReactPlayer from "react-player/youtube"
 
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+
 import { Button } from "./ui/button"
 
 interface Item {
@@ -40,24 +42,22 @@ export function TranscriptVideo({ url, data }: { url: string; data: Item[] }) {
 
   const handleSeek = (time: number) => {
     if (playerRef.current) {
-      setCurrentTime(time);
-      playerRef.current.seekTo(time, 'seconds');
+      setCurrentTime(time)
+      playerRef.current.seekTo(time, "seconds")
     }
-  };
+  }
 
   const handleReady = () => {
-    playerRef.current = playerRef.current as ReactPlayer;
-  };
+    playerRef.current = playerRef.current as ReactPlayer
+  }
 
   const formatTime = (time: number): string => {
     const hours = Math.floor(time / 3600)
     const minutes = Math.floor((time % 3600) / 60)
     const seconds = Math.floor(time % 60)
-
     const formattedTime = `${hours.toString().padStart(2, "0")}:${minutes
       .toString()
       .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`
-
     return formattedTime
   }
 
@@ -85,29 +85,37 @@ export function TranscriptVideo({ url, data }: { url: string; data: Item[] }) {
           />
         </div>
 
-        <div
-          className="h-[600px] w-1/2 overflow-hidden overflow-y-auto p-10 dark:border-r"
-          ref={resultRef}
-        >
-          {data.map((item: Item, index: number) => (
-            <div key={index}>
-              <Button
-                onClick={() => handleSeek(item.start)}
-                className="start-button mb-2"
-              >
-                <FontAwesomeIcon icon={faPlay} className="mr-2" />
-                {formatTime(item.start)}
-              </Button>
-              <p>Speaker-{item.speaker}:</p>
-              <p
-                className={`mb-4 ${
-                  index === highlightedIndex ? "highlight" : ""
-                }`}
-              >
-                {item.text}
-              </p>
-            </div>
-          ))}
+        <div className="h-[600px] w-1/2 overflow-hidden overflow-y-auto p-10 dark:border-r">
+          <Tabs defaultValue="transcript" className="w-auto">
+            <TabsList className="grid w-auto grid-cols-2">
+              <TabsTrigger value="transcript">Transcript</TabsTrigger>
+              <TabsTrigger value="summary">Summary</TabsTrigger>
+            </TabsList>
+
+            <TabsContent className="w-auto" ref={resultRef} value="transcript">
+              {data.map((item: Item, index: number) => (
+                <div key={index}>
+                  <Button
+                    onClick={() => handleSeek(item.start)}
+                    className="start-button mb-2"
+                  >
+                    <FontAwesomeIcon icon={faPlay} className="mr-2" />
+                    {formatTime(item.start)}
+                  </Button>
+                  <p>Speaker-{item.speaker}:</p>
+                  <p
+                    className={`mb-4 ${
+                      index === highlightedIndex ? "highlight" : ""
+                    }`}
+                  >
+                    {item.text}
+                  </p>
+                </div>
+              ))}
+            </TabsContent>
+
+            <TabsContent value="summary"></TabsContent>
+          </Tabs>
         </div>
       </div>
     </>
