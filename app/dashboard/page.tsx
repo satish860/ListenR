@@ -20,6 +20,13 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 import { EmptyDashboard } from "@/components/emptydashboard"
 
 async function fetcher(url: string) {
@@ -31,14 +38,18 @@ async function fetcher(url: string) {
 export default function IndexPage() {
   const [items, setItems] = useState<video[]>([])
   const [inputValue, setInputValue] = useState<string>("")
+  const [selectedLanguage, setSelectedLanguage] = useState<string>("")
   const { data, error, isLoading } = useSWR<video[], string>("/api", fetcher)
   const { mutate } = useSWRConfig()
-
   const [loader, setloader] = useState(false)
   const [open, setOpen] = useState(false)
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value)
+  }
+
+  const handleLanguageSelect = (value: string) => {
+    setSelectedLanguage(value)
   }
 
   const handleSubmit = async (
@@ -47,10 +58,12 @@ export default function IndexPage() {
     setloader(true)
     event.preventDefault()
     const uuid = uuidv4()
+    console.log(selectedLanguage)
     const request1 = await axios.post("/api", { url: inputValue, id: uuid })
     const request2 = await axios.post("/api/transcript", {
       url: inputValue,
       id: uuid,
+      lang: selectedLanguage,
     })
     await Promise.all([request1, request2])
     setloader(false)
@@ -76,10 +89,7 @@ export default function IndexPage() {
             <DialogTrigger asChild>
               <div>
                 <Button className="float-right mr-40 mt-2">
-                  <FontAwesomeIcon
-                    icon={faPlusCircle}
-                    className="mr-2"
-                  />
+                  <FontAwesomeIcon icon={faPlusCircle} className="mr-2" />
                   Add New
                 </Button>
               </div>
@@ -97,6 +107,20 @@ export default function IndexPage() {
                     className="w-96"
                     placeholder="Enter your URL here"
                   />
+                  <Select
+                    onValueChange={handleLanguageSelect}
+                    defaultValue="en-IN"
+                  >
+                    <SelectTrigger className="w-auto">
+                      <SelectValue placeholder="Select a language" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="en-IN">English - India</SelectItem>
+                      <SelectItem value="ta">Tamil</SelectItem>
+                      <SelectItem value="hi">Hindi</SelectItem>
+                    </SelectContent>
+                  </Select>
+
                   <DialogFooter>
                     {loader ? (
                       <Button>

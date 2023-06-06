@@ -90,7 +90,7 @@ export default function RootLayout({ children, pathname }: RootLayoutProps) {
                 </body>
               </SignedIn>
               <SignedOut>
-                <RedirectToSignIn afterSignInUrl="/dashboard" redirectUrl="/" />
+                <RedirectToSignIn afterSignInUrl="/dashboard"/>
               </SignedOut>
             </>
           )}
