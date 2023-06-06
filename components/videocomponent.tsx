@@ -44,7 +44,6 @@ export function TranscriptVideo({ url, data }: { url: string; data: Item[] }) {
       playerRef.current.seekTo(time, 'seconds');
     }
   };
-  
 
   const handleReady = () => {
     playerRef.current = playerRef.current as ReactPlayer;

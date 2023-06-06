@@ -3,6 +3,7 @@ import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs"
 
 import { siteConfig } from "@/config/site"
 import { buttonVariants } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
 import { Icons } from "@/components/icons"
 import { MainNav } from "@/components/main-nav"
 import { ThemeToggle } from "@/components/theme-toggle"
@@ -12,8 +13,15 @@ import { Button } from "./ui/button"
 export function SiteHeader() {
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-background">
-      <div className="container flex h-16 items-center space-x-4 sm:justify-between sm:space-x-0">
+      <div className="container flex h-16 items-center space-x-4 pl-40 sm:justify-between sm:space-x-0">
         <MainNav items={siteConfig.mainNav} />
+        <div className="flex flex-1 items-center justify-center">
+          <div className="flex flex-1 justify-end">
+            <div>
+              <Input type="input" className="w-80" placeholder="Search" />
+            </div>
+          </div>
+        </div>
         <div className="flex flex-1 items-center justify-end space-x-4">
           <nav className="flex items-center space-x-1">
             <Link
@@ -48,7 +56,7 @@ export function SiteHeader() {
             </Link>
             <ThemeToggle />
             <SignedIn>
-              <UserButton/>
+              <UserButton />
             </SignedIn>
             <SignedOut>
               <Link href={siteConfig.links.signin}>
