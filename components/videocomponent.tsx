@@ -72,7 +72,7 @@ export function TranscriptVideo({ url, data, summary }: { url: string; data: Ite
       </style>
 
       <div className="flex">
-        <div className="w-1/2 pt-10 pl-10">
+        <div className="w-1/2 pl-10 pt-10">
           <ReactPlayer
             ref={playerRef}
             url={url}

@@ -1,3 +1,4 @@
+'use client';
 
 import Link from "next/link"
 import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs"
@@ -10,20 +11,24 @@ import { MainNav } from "@/components/main-nav"
 import { ThemeToggle } from "@/components/theme-toggle"
 
 import { Button } from "./ui/button"
+import { usePathname } from 'next/navigation';
 
 export function SiteHeader() {
-  
+  const pathname = usePathname();
+  const isSearch = pathname === '/';
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-background">
       <div className="container flex h-16 items-center space-x-4 pl-40 sm:justify-between sm:space-x-0">
         <MainNav items={siteConfig.mainNav} />
-        <div className="flex flex-1 items-center justify-center">
-          <div className="flex flex-1 justify-end">
-            <div className="flex items-center space-x-2 flex-col">
+        {!isSearch && (
+          <div className="flex flex-1 items-center justify-center">
+            <div className="flex flex-1 justify-end">
+              <div className="flex flex-col items-center space-x-2">
                 <Input type="input" className="w-80" placeholder="Search" />
+              </div>
             </div>
           </div>
-        </div>
+        )}
         <div className="flex flex-1 items-center justify-end space-x-4">
           <nav className="flex items-center space-x-1">
             <Link
