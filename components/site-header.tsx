@@ -13,7 +13,7 @@ import { ThemeToggle } from "@/components/theme-toggle"
 import { Button } from "./ui/button"
 import { usePathname } from 'next/navigation';
 
-export function SiteHeader({ isSearchEnabled }: { isSearchEnabled: boolean }) {
+export function SiteHeader() {
   const pathname = usePathname();
   const isSearch = pathname === '/';
   return (

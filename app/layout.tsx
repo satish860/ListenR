@@ -59,7 +59,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
                 enableSystem
               >
                 <div className="relative flex min-h-screen flex-col">
-                  <SiteHeader isSearchEnabled="false" />
+                  <SiteHeader  />
                   <div className="flex-1">{children}</div>
                 </div>
                 <TailwindIndicator />
@@ -80,7 +80,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
                     enableSystem
                   >
                     <div className="relative flex min-h-screen flex-col">
-                      <SiteHeader isSearchEnabled="true" />
+                      <SiteHeader />
                       <div className="flex-1">{children}</div>
                     </div>
                     <TailwindIndicator />
