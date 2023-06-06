@@ -67,7 +67,6 @@ export async function POST(request: NextRequest) {
   const res = await request.json()
   const youtubeUrl = res.url
   const corelation_id = res.id
-  console.log(corelation_id)
   const data = await fetchData(youtubeUrl)
   const record = await xata.db.info.create({
     user_id: userId,

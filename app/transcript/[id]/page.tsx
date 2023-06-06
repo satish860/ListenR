@@ -19,16 +19,21 @@ export default async function IndexPage({
 }) {
   const record = await xata.db.info.read(params.id)
   const sen_url = record?.sentence_url
+  const sum_url = record?.summary_url
 
   let data = []
+  let summary = []
 
-  if (sen_url) {
-    data = await getData(sen_url)
-  }
-
+    data = sen_url? await getData(sen_url) : []
+    summary = sum_url? await getData(sum_url) : []
+  
   return (
     <>
-      <TranscriptVideo url={record?.youtube_url!} data={data}/>
+      <TranscriptVideo
+        url={record?.youtube_url!}
+        data={data}
+        summary={summary}
+      />
     </>
   )
 }

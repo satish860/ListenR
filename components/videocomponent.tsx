@@ -16,7 +16,7 @@ interface Item {
   end: number
 }
 
-export function TranscriptVideo({ url, data }: { url: string; data: Item[] }) {
+export function TranscriptVideo({ url, data, summary }: { url: string; data: Item[]; summary: string}) {
   const [currentTime, setCurrentTime] = useState(0)
   const [highlightedIndex, setHighlightedIndex] = useState(0)
   const resultRef = useRef<HTMLDivElement>(null)
@@ -56,8 +56,7 @@ export function TranscriptVideo({ url, data }: { url: string; data: Item[] }) {
     const minutes = Math.floor((time % 3600) / 60)
     const seconds = Math.floor(time % 60)
     const formattedTime = `${hours.toString().padStart(2, "0")}:${minutes
-      .toString()
-      .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`
+      .toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`
     return formattedTime
   }
 
@@ -93,7 +92,7 @@ export function TranscriptVideo({ url, data }: { url: string; data: Item[] }) {
             </TabsList>
 
             <TabsContent className="w-auto" ref={resultRef} value="transcript">
-              {data.map((item: Item, index: number) => (
+              {data?.map((item: Item, index: number) => (
                 <div key={index}>
                   <Button
                     onClick={() => handleSeek(item.start)}
@@ -114,7 +113,7 @@ export function TranscriptVideo({ url, data }: { url: string; data: Item[] }) {
               ))}
             </TabsContent>
 
-            <TabsContent value="summary"></TabsContent>
+            <TabsContent value="summary">{summary}</TabsContent>
           </Tabs>
         </div>
       </div>
