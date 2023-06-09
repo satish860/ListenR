@@ -22,9 +22,9 @@ const fetchData = async (youtubeUrl: string): Promise<VideoData> => {
   const requestBody = {
     url: youtubeUrl,
   }
-  console.log(url)
-  console.log(token)
-  console.log(requestBody)
+  console.log("url:", url)
+  console.log("token:",token)
+  console.log("RequestBody:",requestBody)
 
   try {
     if (!url) {
@@ -42,9 +42,11 @@ const fetchData = async (youtubeUrl: string): Promise<VideoData> => {
       },
       body: JSON.stringify(requestBody),
     })
-    console.log(response.json())
+   
     if (!response.ok) {
+      console.log("Response Headers:", response.headers)
       throw new Error("Request failed")
+
     }
 
     const yt = await response.json()
