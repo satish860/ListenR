@@ -1,5 +1,4 @@
 import { getXataClient } from "@/src/xata"
-
 import { TranscriptVideo } from "@/components/videocomponent"
 
 const xata = getXataClient()

@@ -16,7 +16,15 @@ interface Item {
   end: number
 }
 
-export function TranscriptVideo({ url, data, summary }: { url: string; data: Item[]; summary: string}) {
+export function TranscriptVideo({
+  url,
+  data,
+  summary,
+}: {
+  url: string
+  data: Item[]
+  summary: string[]
+}) {
   const [currentTime, setCurrentTime] = useState(0)
   const [highlightedIndex, setHighlightedIndex] = useState(0)
   const resultRef = useRef<HTMLDivElement>(null)
@@ -56,7 +64,8 @@ export function TranscriptVideo({ url, data, summary }: { url: string; data: Ite
     const minutes = Math.floor((time % 3600) / 60)
     const seconds = Math.floor(time % 60)
     const formattedTime = `${hours.toString().padStart(2, "0")}:${minutes
-      .toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`
+      .toString()
+      .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`
     return formattedTime
   }
 
@@ -113,7 +122,13 @@ export function TranscriptVideo({ url, data, summary }: { url: string; data: Ite
               ))}
             </TabsContent>
 
-            <TabsContent value="summary">{summary}</TabsContent>
+            <TabsContent value="summary">
+              <ul>
+                {summary.map((item, index) => (
+                  <li key={index} style={{ marginBottom: '10px' }}> - {item}</li>
+                ))}
+              </ul>
+            </TabsContent>
           </Tabs>
         </div>
       </div>
