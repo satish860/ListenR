@@ -86,7 +86,7 @@ export function TranscriptVideo({
             ref={playerRef}
             url={url}
             height={550}
-            width={700}
+            width="auto"
             controls={true}
             onProgress={handleProgress}
             onReady={handleReady}

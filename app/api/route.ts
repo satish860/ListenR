@@ -46,7 +46,6 @@ const fetchData = async (youtubeUrl: string): Promise<VideoData> => {
     if (!response.ok) {
       console.log("Response Headers:", response.headers)
       throw new Error("Request failed")
-
     }
 
     const yt = await response.json()
