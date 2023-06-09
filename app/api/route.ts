@@ -22,6 +22,7 @@ const fetchData = async (youtubeUrl: string): Promise<VideoData> => {
   const requestBody = {
     url: youtubeUrl,
   }
+  console.log(url, token, requestBody)
 
   try {
     if (!url) {
