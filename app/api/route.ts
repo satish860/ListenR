@@ -40,7 +40,7 @@ const fetchData = async (youtubeUrl: string): Promise<VideoData> => {
       },
       body: JSON.stringify(requestBody),
     })
-    console.log(response)
+    console.log(response.json())
     if (!response.ok) {
       throw new Error("Request failed")
     }
