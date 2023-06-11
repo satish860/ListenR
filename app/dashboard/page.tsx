@@ -9,6 +9,8 @@ import axios from "axios"
 import { Loader2 } from "lucide-react"
 import useSWR, { useSWRConfig } from "swr"
 import { v4 as uuidv4 } from "uuid"
+import { Separator } from "@/components/ui/separator"
+import { Label } from "@/components/ui/label"
 
 import video from "@/types/video"
 import { cn } from "@/lib/utils"
@@ -43,9 +45,15 @@ export default function IndexPage() {
   const { mutate } = useSWRConfig()
   const [loader, setloader] = useState(false)
   const [open, setOpen] = useState(false)
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value)
+  }
+
+  function handleFileChange(event: ChangeEvent<HTMLInputElement>) {
+    const file = event.target.files?.[0];
+    setSelectedFile(file || null);
   }
 
   const handleLanguageSelect = (value: string) => {
@@ -58,7 +66,6 @@ export default function IndexPage() {
     setloader(true)
     event.preventDefault()
     const uuid = uuidv4()
-    console.log(selectedLanguage)
     const request1 = await axios.post("/api", { url: inputValue, id: uuid })
     const request2 = await axios.post("/api/transcript", {
       url: inputValue,
@@ -107,6 +114,12 @@ export default function IndexPage() {
                     className="w-96"
                     placeholder="Enter your URL here"
                   />
+                  <Separator />
+                  <div className="grid w-full max-w-sm items-center gap-1.5">
+                    <Label htmlFor="Upload a Audio or Video">Upload a Audio or Video</Label>
+                    <Input id="picture" accept=".mp3, .mp4" type="file" onChange={handleFileChange} />
+                    {selectedFile && <p>Selected file: {selectedFile.name}</p>}
+                  </div>
                   <Select
                     onValueChange={handleLanguageSelect}
                     defaultValue="en-IN"
