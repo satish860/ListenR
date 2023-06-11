@@ -11,6 +11,7 @@ import useSWR, { useSWRConfig } from "swr"
 import { v4 as uuidv4 } from "uuid"
 import { Separator } from "@/components/ui/separator"
 import { Label } from "@/components/ui/label"
+import { Upload } from "upload-js"
 
 import video from "@/types/video"
 import { cn } from "@/lib/utils"
@@ -30,6 +31,9 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { EmptyDashboard } from "@/components/emptydashboard"
+
+
+const uploader = Upload({ apiKey: process.env.NEXT_PUBLIC_UPLOADCARE_PUBLIC_KEY! }); 
 
 async function fetcher(url: string) {
   var response = await axios.get(url)
@@ -66,6 +70,17 @@ export default function IndexPage() {
     setloader(true)
     event.preventDefault()
     const uuid = uuidv4()
+    if(selectedFile) {
+      const file= await uploader.uploadFile(selectedFile);
+      console.log(file);
+      setInputValue(file.fileUrl);
+      // upload file to upload IO
+      // get url
+      // set url to inputValue
+      // set selectedFile to null
+      // set inputValue to ""
+
+    }
     const request1 = await axios.post("/api", { url: inputValue, id: uuid })
     const request2 = await axios.post("/api/transcript", {
       url: inputValue,
