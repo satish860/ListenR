@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server"
 
-export const runtime = 'edge';
+export const runtime = "edge"
 
 export async function GET(request: Request) {
   return NextResponse.json({ message: "Hello, world!" })
@@ -10,12 +10,15 @@ export async function POST(request: Request) {
   const res = await request.json()
   const youtubeUrl = res.url
   const corelation_id = res.id
+  const isyoutube = res.isyoutube
   const language = res.lang || "en-IN"
   const requestBody = {
     url: youtubeUrl,
     record_id: corelation_id,
+    isyoutube: isyoutube,
     lang: language,
   }
+
   const url = process.env.TRANSCRIPT_API_URL
   const token = process.env.BEAM_API_KEY
   if (!url) {

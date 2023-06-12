@@ -8,10 +8,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import axios from "axios"
 import { Loader2 } from "lucide-react"
 import useSWR, { useSWRConfig } from "swr"
-import { v4 as uuidv4 } from "uuid"
-import { Separator } from "@/components/ui/separator"
-import { Label } from "@/components/ui/label"
 import { Upload } from "upload-js"
+import { v4 as uuidv4 } from "uuid"
 
 import video from "@/types/video"
 import { cn } from "@/lib/utils"
@@ -23,6 +21,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
 import {
   Select,
   SelectContent,
@@ -30,10 +29,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import { Separator } from "@/components/ui/separator"
 import { EmptyDashboard } from "@/components/emptydashboard"
 
-
-const uploader = Upload({ apiKey: process.env.NEXT_PUBLIC_UPLOADCARE_PUBLIC_KEY! }); 
+const uploader = Upload({
+  apiKey: process.env.NEXT_PUBLIC_UPLOADCARE_PUBLIC_KEY!,
+})
 
 async function fetcher(url: string) {
   var response = await axios.get(url)
@@ -49,15 +50,15 @@ export default function IndexPage() {
   const { mutate } = useSWRConfig()
   const [loader, setloader] = useState(false)
   const [open, setOpen] = useState(false)
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null)
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value)
   }
 
   function handleFileChange(event: ChangeEvent<HTMLInputElement>) {
-    const file = event.target.files?.[0];
-    setSelectedFile(file || null);
+    const file = event.target.files?.[0]
+    setSelectedFile(file || null)
   }
 
   const handleLanguageSelect = (value: string) => {
@@ -70,23 +71,40 @@ export default function IndexPage() {
     setloader(true)
     event.preventDefault()
     const uuid = uuidv4()
-    if(selectedFile) {
-      const file= await uploader.uploadFile(selectedFile);
-      console.log(file);
-      setInputValue(file.fileUrl);
-      // upload file to upload IO
-      // get url
-      // set url to inputValue
-      // set selectedFile to null
-      // set inputValue to ""
+    var isyoutube = true
+    var request1,
+      request2 = null
 
+    if (selectedFile) {
+      const file = await uploader.uploadFile(selectedFile)
+      console.log(file)
+      isyoutube = false,
+      request1 = await axios.post("/api", {
+        url: file.fileUrl,
+        id: uuid,
+        isyoutube,
+        file: file,
+      })
+      request2 = await axios.post("/api/transcript", {
+        url: file.fileUrl,
+        id: uuid,
+        isyoutube,
+        lang: selectedLanguage,
+      })
+    } else {
+      request1 = await axios.post("/api", {
+        url: inputValue,
+        id: uuid,
+        isyoutube,
+      })
+  
+      request2 = await axios.post("/api/transcript", {
+        url: inputValue,
+        id: uuid,
+        isyoutube,
+        lang: selectedLanguage,
+      })
     }
-    const request1 = await axios.post("/api", { url: inputValue, id: uuid })
-    const request2 = await axios.post("/api/transcript", {
-      url: inputValue,
-      id: uuid,
-      lang: selectedLanguage,
-    })
     await Promise.all([request1, request2])
     setloader(false)
     setOpen(false)
@@ -131,8 +149,15 @@ export default function IndexPage() {
                   />
                   <Separator />
                   <div className="grid w-full max-w-sm items-center gap-1.5">
-                    <Label htmlFor="Upload a Audio or Video">Upload a Audio or Video</Label>
-                    <Input id="picture" accept=".mp3, .mp4" type="file" onChange={handleFileChange} />
+                    <Label htmlFor="Upload a Audio or Video">
+                      Upload a Audio or Video
+                    </Label>
+                    <Input
+                      id="picture"
+                      accept=".mp3, .mp4"
+                      type="file"
+                      onChange={handleFileChange}
+                    />
                     {selectedFile && <p>Selected file: {selectedFile.name}</p>}
                   </div>
                   <Select

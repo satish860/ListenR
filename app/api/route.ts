@@ -23,8 +23,8 @@ const fetchData = async (youtubeUrl: string): Promise<VideoData> => {
     url: youtubeUrl,
   }
   console.log("url:", url)
-  console.log("token:",token)
-  console.log("RequestBody:",requestBody)
+  console.log("token:", token)
+  console.log("RequestBody:", requestBody)
 
   try {
     if (!url) {
@@ -42,7 +42,7 @@ const fetchData = async (youtubeUrl: string): Promise<VideoData> => {
       },
       body: JSON.stringify(requestBody),
     })
-   
+
     if (!response.ok) {
       console.log("Response Headers:", response.headers)
       throw new Error("Request failed")
@@ -71,24 +71,41 @@ export async function POST(request: NextRequest) {
   const res = await request.json()
   const youtubeUrl = res.url
   const corelation_id = res.id
-  const data = await fetchData(youtubeUrl)
-  const record = await xata.db.info.create({
-    user_id: userId,
-    title: data.title,
-    number_of_views: data.number_of_views.toString(),
-    video_length: data.video_length.toString(),
-    thumbnail_url: data.thumbnail_url,
-    ratings: String(data.ratings),
-    corelation_id: corelation_id,
-    transcription_status: "pending",
-    youtube_url: data.youtube_url,
-    video_id: data.video_id,
-  })
+  const isyoutube = res.isyoutube
+  const file = res.file
+  var record = null
+
+  if (isyoutube) {
+    const data = await fetchData(youtubeUrl)
+    record = await xata.db.info.create({
+      user_id: userId,
+      title: data.title,
+      number_of_views: data.number_of_views.toString(),
+      video_length: data.video_length.toString(),
+      thumbnail_url: data.thumbnail_url,
+      ratings: String(data.ratings),
+      corelation_id: corelation_id,
+      transcription_status: "pending",
+      youtube_url: data.youtube_url,
+      video_id: data.video_id,
+      youtube_video: isyoutube,
+    })
+  } else {
+    record = await xata.db.info.create({
+      user_id: userId,
+      title: file.originalFileName,
+      video_length: file.size.toString(),
+      thumbnail_url: "https://www.pngitem.com/pimgs/m/213-2136749_sound-wave-clipart-transparent-sound-waves-clipart-png.png",
+      corelation_id: corelation_id,
+      transcription_status: "pending",
+      youtube_url: file.fileUrl,
+      youtube_video: isyoutube,
+    })
+  }
   return NextResponse.json({ record })
 }
 
 export async function GET(request: NextRequest) {
-  const { userId } = getAuth(request)
   const records = await xata.db.info.getPaginated({
     pagination: {
       size: 30,
