@@ -23,8 +23,8 @@ export default async function IndexPage({
   let data = []
   let summary = []
 
-    data = sen_url? await getData(sen_url) : []
-    summary = sum_url? await getData(sum_url) : []
+  data = sen_url? await getData(sen_url) : []
+  summary = sum_url? await getData(sum_url) : []
   
   return (
     <>
@@ -32,6 +32,7 @@ export default async function IndexPage({
         url={record?.youtube_url!}
         data={data}
         summary={summary}
+        isyoutube={record?.youtube_video!}
       />
     </>
   )

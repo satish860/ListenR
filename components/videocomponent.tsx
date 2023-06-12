@@ -3,10 +3,8 @@
 import React, { useRef, useState } from "react"
 import { faPlay } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import ReactPlayer from "react-player/youtube"
-
+import ReactPlayer from "react-player/lazy"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-
 import { Button } from "./ui/button"
 
 interface Item {
@@ -20,10 +18,12 @@ export function TranscriptVideo({
   url,
   data,
   summary,
+  isyoutube,
 }: {
   url: string
   data: Item[]
   summary: string[]
+  isyoutube: boolean
 }) {
   const [currentTime, setCurrentTime] = useState(0)
   const [highlightedIndex, setHighlightedIndex] = useState(0)
@@ -82,15 +82,29 @@ export function TranscriptVideo({
 
       <div className="flex">
         <div className="w-1/2 pl-10 pt-10">
-          <ReactPlayer
-            ref={playerRef}
-            url={url}
-            height={550}
-            width="auto"
-            controls={true}
-            onProgress={handleProgress}
-            onReady={handleReady}
-          />
+          {isyoutube ? (
+            <ReactPlayer
+              ref={playerRef}
+              url={url}
+              height={550}
+              width="auto"
+              controls={true}
+              onProgress={handleProgress}
+              onReady={handleReady}
+            />
+          ) : (
+            <ReactPlayer
+              url={url}
+              controls={true}
+              ref={playerRef}
+              onProgress={handleProgress}
+              config={{
+                file: {
+                  forceAudio: true,
+                },
+              }}
+            />
+          )}
         </div>
 
         <div className="h-[600px] w-1/2 overflow-hidden overflow-y-auto p-10 dark:border-r">
@@ -125,7 +139,9 @@ export function TranscriptVideo({
             <TabsContent value="summary">
               <ul>
                 {summary.map((item, index) => (
-                  <li key={index} style={{ marginBottom: '10px' }}> - {item}</li>
+                  <li key={index} style={{ marginBottom: "10px" }}>
+                    - {item}
+                  </li>
                 ))}
               </ul>
             </TabsContent>
