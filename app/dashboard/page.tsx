@@ -1,6 +1,6 @@
 "use client"
 
-import React, { ChangeEvent, MouseEvent, useState } from "react"
+import React, { ChangeEvent, MouseEvent, useState, useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { faPlusCircle } from "@fortawesome/free-solid-svg-icons"
@@ -10,7 +10,6 @@ import { Loader2 } from "lucide-react"
 import useSWR, { useSWRConfig } from "swr"
 import { Upload } from "upload-js"
 import { v4 as uuidv4 } from "uuid"
-
 import video from "@/types/video"
 import { cn } from "@/lib/utils"
 import { Button, buttonVariants } from "@/components/ui/button"
@@ -31,16 +30,11 @@ import {
 } from "@/components/ui/select"
 import { Separator } from "@/components/ui/separator"
 import { EmptyDashboard } from "@/components/emptydashboard"
+import { fetcher } from "@/app/services/dashboard_data"
 
 const uploader = Upload({
   apiKey: process.env.NEXT_PUBLIC_UPLOADCARE_PUBLIC_KEY!,
 })
-
-async function fetcher(url: string) {
-  var response = await axios.get(url)
-  console.log(response.data)
-  return response.data.data
-}
 
 export default function IndexPage() {
   const [items, setItems] = useState<video[]>([])
