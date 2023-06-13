@@ -37,8 +37,7 @@ interface RootLayoutProps {
 }
 
 export default function RootLayout({ children }: RootLayoutProps) {
-  
-  const isPublicPage = true;
+  const isPublicPage = true
 
   return (
     <>
@@ -59,7 +58,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
                 enableSystem
               >
                 <div className="relative flex min-h-screen flex-col">
-                  <SiteHeader  />
+                  <SiteHeader />
                   <div className="flex-1">{children}</div>
                 </div>
                 <TailwindIndicator />
@@ -88,7 +87,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
                 </body>
               </SignedIn>
               <SignedOut>
-                <RedirectToSignIn afterSignInUrl="/dashboard"/>
+                <RedirectToSignIn afterSignInUrl="/dashboard" />
               </SignedOut>
             </>
           )}

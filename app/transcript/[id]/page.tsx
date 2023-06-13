@@ -20,9 +20,7 @@ export default async function IndexPage({
   const sen_url = record?.sentence_url
   const sum_url = record?.summary_url
 
-  let data = []
-  let summary = []
-
+  let [data, summary] = [[], []];
   data = sen_url? await getData(sen_url) : []
   summary = sum_url? await getData(sum_url) : []
   

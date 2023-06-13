@@ -78,13 +78,13 @@ export default function IndexPage() {
     if (selectedFile) {
       const file = await uploader.uploadFile(selectedFile)
       console.log(file)
-      isyoutube = false,
-      request1 = await axios.post("/api", {
-        url: file.fileUrl,
-        id: uuid,
-        isyoutube,
-        file: file,
-      })
+      ;(isyoutube = false),
+        (request1 = await axios.post("/api", {
+          url: file.fileUrl,
+          id: uuid,
+          isyoutube,
+          file: file,
+        }))
       request2 = await axios.post("/api/transcript", {
         url: file.fileUrl,
         id: uuid,
@@ -97,7 +97,7 @@ export default function IndexPage() {
         id: uuid,
         isyoutube,
       })
-  
+
       request2 = await axios.post("/api/transcript", {
         url: inputValue,
         id: uuid,
