@@ -32,6 +32,7 @@ import {
 import { Separator } from "@/components/ui/separator"
 import { EmptyDashboard } from "@/components/emptydashboard"
 import { fetcher } from "@/app/services/dashboard_data"
+import useSWRImmutable from 'swr/immutable'
 
 const uploader = Upload({
   apiKey: process.env.NEXT_PUBLIC_UPLOADCARE_PUBLIC_KEY!,
@@ -41,11 +42,16 @@ export default function IndexPage() {
   const [items, setItems] = useState<video[]>([])
   const [inputValue, setInputValue] = useState<string>("")
   const [selectedLanguage, setSelectedLanguage] = useState<string>("")
-  const { data, error, isLoading } = useSWR<video[], string>(
-    "/api",
-    fetcher
-  )
+  const { data, error, isLoading } = useSWRImmutable<video[], string>("/api", fetcher)
   const { mutate } = useSWRConfig()
+  const options = {
+    revalidateIfStale: false,
+    revalidateOnFocus: false,
+    revalidateOnReconnect: false,
+    revalidateOnMount: false,
+    revalidateTimeout: 1000,
+  }
+
   const [loader, setloader] = useState(false)
   const [open, setOpen] = useState(false)
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
@@ -107,7 +113,7 @@ export default function IndexPage() {
     setloader(false)
     setOpen(false)
     setInputValue("")
-    mutate("/api")
+    mutate("/api", options)
   }
 
   const newlyAdded = (video: any) => {
