@@ -14,7 +14,7 @@ import { Input } from "@/components/ui/input"
 import { Icons } from "@/components/icons"
 import { MainNav } from "@/components/main-nav"
 import { ThemeToggle } from "@/components/theme-toggle"
-import { query, updateUser } from "@/app/services/dashboard_data"
+import {  updateUser } from "@/app/services/dashboard_data"
 
 import { Button } from "./ui/button"
 
@@ -23,7 +23,6 @@ export function SiteHeader() {
   const isSearch = pathname === "/"
   const [value, setValue] = useState("")
   const [queryParams, setQueryParams] = useState("")
-  const { mutate } = useSWRConfig()
   const options = {
     revalidate: false,
     populateCache: true,
