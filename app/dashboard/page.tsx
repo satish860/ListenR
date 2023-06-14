@@ -1,6 +1,6 @@
 "use client"
 
-import React, { ChangeEvent, MouseEvent, useState, useEffect } from "react"
+import React, { ChangeEvent, MouseEvent, useEffect, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { faPlusCircle } from "@fortawesome/free-solid-svg-icons"
@@ -10,6 +10,7 @@ import { Loader2 } from "lucide-react"
 import useSWR, { useSWRConfig } from "swr"
 import { Upload } from "upload-js"
 import { v4 as uuidv4 } from "uuid"
+
 import video from "@/types/video"
 import { cn } from "@/lib/utils"
 import { Button, buttonVariants } from "@/components/ui/button"
@@ -40,7 +41,10 @@ export default function IndexPage() {
   const [items, setItems] = useState<video[]>([])
   const [inputValue, setInputValue] = useState<string>("")
   const [selectedLanguage, setSelectedLanguage] = useState<string>("")
-  const { data, error, isLoading } = useSWR<video[], string>("/api", fetcher)
+  const { data, error, isLoading } = useSWR<video[], string>(
+    "/api",
+    fetcher
+  )
   const { mutate } = useSWRConfig()
   const [loader, setloader] = useState(false)
   const [open, setOpen] = useState(false)

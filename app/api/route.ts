@@ -22,9 +22,6 @@ const fetchData = async (youtubeUrl: string): Promise<VideoData> => {
   const requestBody = {
     url: youtubeUrl,
   }
-  console.log("url:", url)
-  console.log("token:", token)
-  console.log("RequestBody:", requestBody)
 
   try {
     if (!url) {
@@ -95,7 +92,8 @@ export async function POST(request: NextRequest) {
       user_id: userId,
       title: file.originalFileName,
       video_length: file.size.toString(),
-      thumbnail_url: "https://www.pngitem.com/pimgs/m/213-2136749_sound-wave-clipart-transparent-sound-waves-clipart-png.png",
+      thumbnail_url:
+        "https://www.pngitem.com/pimgs/m/213-2136749_sound-wave-clipart-transparent-sound-waves-clipart-png.png",
       corelation_id: corelation_id,
       transcription_status: "pending",
       youtube_url: file.fileUrl,
@@ -106,10 +104,25 @@ export async function POST(request: NextRequest) {
 }
 
 export async function GET(request: NextRequest) {
-  const records = await xata.db.info.getPaginated({
-    pagination: {
-      size: 30,
-    },
-  })
-  return NextResponse.json({ data: records.records })
+  const q = request.nextUrl.searchParams.get("q")
+  console.log("q:", q)
+  if (q) {
+    const records = await xata.db.info
+      .filter({
+        title: { $contains: q },
+      })
+      .getPaginated({
+        pagination: {
+          size: 30,
+        },
+      })
+    return NextResponse.json({ data: records.records })
+  } else {
+    const records = await xata.db.info.getPaginated({
+      pagination: {
+        size: 30,
+      },
+    })
+    return NextResponse.json({ data: records.records })
+  }
 }

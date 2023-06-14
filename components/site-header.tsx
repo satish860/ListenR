@@ -1,21 +1,46 @@
-'use client';
+"use client"
 
+import React, { useState } from "react"
 import Link from "next/link"
+import { usePathname } from "next/navigation"
 import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs"
+import useSWR, { useSWRConfig } from "swr"
+import useSWRMutation from "swr/mutation"
 
+import video from "@/types/video"
 import { siteConfig } from "@/config/site"
 import { buttonVariants } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Icons } from "@/components/icons"
 import { MainNav } from "@/components/main-nav"
 import { ThemeToggle } from "@/components/theme-toggle"
+import { query, updateUser } from "@/app/services/dashboard_data"
 
 import { Button } from "./ui/button"
-import { usePathname } from 'next/navigation';
 
 export function SiteHeader() {
-  const pathname = usePathname();
-  const isSearch = pathname === '/';
+  const pathname = usePathname()
+  const isSearch = pathname === "/"
+  const [value, setValue] = useState("")
+  const [queryParams, setQueryParams] = useState("")
+  const { mutate } = useSWRConfig()
+  const options = {
+    revalidate: false,
+    populateCache: true,
+  }
+
+  const { trigger } = useSWRMutation("/api", updateUser, options)
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setValue(event.target.value)
+  }
+
+  const handleClick = () => {
+    console.log(value)
+    setQueryParams(value)
+    trigger(value)
+  }
+
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-background">
       <div className="container flex h-16 items-center space-x-4 pl-40 sm:justify-between sm:space-x-0">
@@ -23,8 +48,15 @@ export function SiteHeader() {
         {!isSearch && (
           <div className="flex flex-1 items-center justify-center">
             <div className="flex flex-1 justify-end">
-              <div className="flex flex-col items-center space-x-2">
-                <Input type="input" className="w-80" placeholder="Search" />
+              <div className="flex space-x-2">
+                <Input
+                  type="input"
+                  className="w-80"
+                  placeholder="Search"
+                  value={value}
+                  onChange={handleChange}
+                />
+                <Button onClick={handleClick}>Search</Button>
               </div>
             </div>
           </div>
