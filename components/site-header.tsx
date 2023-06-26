@@ -7,14 +7,13 @@ import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs"
 import useSWR, { useSWRConfig } from "swr"
 import useSWRMutation from "swr/mutation"
 
-import video from "@/types/video"
 import { siteConfig } from "@/config/site"
 import { buttonVariants } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Icons } from "@/components/icons"
 import { MainNav } from "@/components/main-nav"
 import { ThemeToggle } from "@/components/theme-toggle"
-import {  updateUser } from "@/app/services/dashboard_data"
+import { updateUser } from "@/app/services/dashboard_data"
 
 import { Button } from "./ui/button"
 
