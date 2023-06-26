@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useEffect, useRef, useState } from "react"
-import { faPlay, faSearch } from "@fortawesome/free-solid-svg-icons"
+import { faPlay } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import ReactPlayer from "react-player/lazy"
 
@@ -79,10 +79,6 @@ export function TranscriptVideo({
     setSearchTerm(event.target.value)
   }
 
-  const handleClick = () => {
-    console.log(searchTerm)
-  }
-
   const searchItems = () => {
     if (!searchTerm) {
       return data
@@ -96,11 +92,10 @@ export function TranscriptVideo({
   }
 
   useEffect(() => {
-    const filteredItems = searchItems();
+    const filteredItems = searchItems()
     console.log(filteredItems)
-    setFilteredData(filteredItems);
-  }, [searchTerm]);
-  
+    setFilteredData(filteredItems)
+  }, [searchTerm])
 
   return (
     <>
@@ -149,8 +144,6 @@ export function TranscriptVideo({
               onChange={handleSearch}
               value={searchTerm}
             />
-            {/* <FontAwesomeIcon icon={faSearch} className="mr-2 mt-3" /> */}
-            <Button onClick={handleClick}>Search</Button>
           </div>
           <div className="h-[600px] overflow-hidden overflow-y-auto p-10 dark:border-r">
             <Tabs defaultValue="transcript" className="w-auto">
@@ -183,25 +176,6 @@ export function TranscriptVideo({
                     </p>
                   </div>
                 ))}
-                {/* {data?.map((item: Item, index: number) => (
-                  <div key={index}>
-                    <Button
-                      onClick={() => handleSeek(item.start)}
-                      className="start-button mb-2"
-                    >
-                      <FontAwesomeIcon icon={faPlay} className="mr-2" />
-                      {formatTime(item.start)}
-                    </Button>
-                    <p>Speaker-{item.speaker}:</p>
-                    <p
-                      className={`mb-4 ${
-                        index === highlightedIndex ? "highlight" : ""
-                      }`}
-                    >
-                      {item.text}
-                    </p>
-                  </div>
-                ))} */}
               </TabsContent>
 
               <TabsContent value="summary">
