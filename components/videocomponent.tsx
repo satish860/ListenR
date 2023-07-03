@@ -172,7 +172,7 @@ export function TranscriptVideo({
                         index === highlightedIndex ? "highlight" : ""
                       }`}
                     >
-                      {item.text}
+                      {replaceWords(item.text)}
                     </p>
                   </div>
                 ))}
@@ -192,5 +192,22 @@ export function TranscriptVideo({
         </div>
       </div>
     </>
+  )
+}
+
+function replaceWords(text: string): string {
+  const wordMap: Record<string, string> = {
+    rod: "Lord",
+    milod: "My Lord",
+    milot: "My Lord",
+    logshifts: "Lordships",
+    malad: "My Lord",
+    malod: "My Lord",
+    malot: "My Lord",
+  }
+
+  return text.replace(
+    /rod|milod|milot|logshifts|malad|malod|malot/gi,
+    (matched) => wordMap[matched.toLowerCase()] || matched
   )
 }
