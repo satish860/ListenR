@@ -4,9 +4,7 @@ import React, { useEffect, useRef, useState } from "react"
 import { faPlay } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import ReactPlayer from "react-player/lazy"
-
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-
 import { Button } from "./ui/button"
 import { Input } from "./ui/input"
 

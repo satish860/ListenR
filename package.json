@@ -50,6 +50,7 @@
     "swr": "^2.1.5",
     "tailwind-merge": "^1.12.0",
     "tailwindcss-animate": "^1.0.5",
+    "tier": "^5.10.0",
     "upload-js": "^2.20.0",
     "uploader": "^3.37.0",
     "uuid": "^9.0.0",
